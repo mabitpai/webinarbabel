@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webinar Nasional - Kemenag Babel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .gradient-bg { background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Animasi Narasumber */
+        .card-narasumber {
+            transition: all 0.4s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .card-narasumber:hover {
+            transform: translateY(-8px);
+            border-color: #10b981;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .fade-page { animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+
+    <!-- HEADER UTAMA (Sesuai Ketentuan Awal) -->
+    <div id="navigation-header">
+        <header class="gradient-bg text-white py-10 px-4 shadow-lg mb-8 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-2xl md:text-4xl font-bold mb-2 uppercase tracking-tight">Webinar Nasional</h1>
+                <h2 class="text-xl md:text-3xl font-bold mb-4">"CERDAS MERENCANAKAN PEMBELAJARAN"</h2>
+                <div class="h-1 w-24 bg-yellow-400 mx-auto mb-4 rounded-full"></div>
+                <p class="text-sm md:text-lg opacity-90 leading-relaxed font-medium">
+                    Bidang Pendidikan Agama dan Pendidikan Keagamaan Islam<br>
+                    Kanwil Kemenag Bangka Belitung<br>
+                    <span class="text-yellow-300 font-bold">Rabu, 13 Mei 2026</span>
+                </p>
+            </div>
+        </header>
+
+        <!-- NAVIGASI TAB -->
+        <div class="flex justify-center space-x-2 mb-8">
+            <button onclick="switchTab('form-section')" id="btn-form" class="px-8 py-2 rounded-full font-bold transition-all shadow-sm bg-emerald-700 text-white border-2 border-emerald-700">Formulir</button>
+            <button onclick="switchTab('admin-section')" id="btn-admin" class="px-8 py-2 rounded-full font-bold transition-all shadow-sm bg-white text-emerald-800 border-2 border-transparent hover:border-emerald-100">Rekap Pendaftar</button>
+        </div>
+    </div>
+
+    <main class="max-w-6xl mx-auto px-4">
+        
+        <!-- SECTION 1: FORMULIR PENDAFTARAN -->
+        <section id="form-section" class="tab-content active">
+            <div class="glass p-8 rounded-3xl shadow-xl border border-gray-100 max-w-2xl mx-auto">
+                <h3 class="text-2xl font-bold text-gray-800 mb-8 border-b pb-4">📝 Formulir Pendaftaran</h3>
+                <form id="registrationForm" class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2 tracking-widest">Nama Lengkap dan Gelar</label>
+                        <input type="text" name="nama" id="in_nama" required placeholder="TULIS DENGAN HURUF KAPITAL" style="text-transform: uppercase" class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-emerald-500 outline-none transition-all">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Provinsi Asal</label>
+                            <select name="provinsi" id="in_provinsi" required class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-emerald-500 outline-none bg-white"></select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Jenjang Pendidikan</label>
+                            <select name="jenjang" id="in_jenjang" required class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-emerald-500 outline-none bg-white">
+                                <option value="">Pilih Jenjang</option>
+                                <option value="TK">TK</option>
+                                <option value="SD">SD</option>
+                                <option value="SMP">SMP</option>
+                                <option value="SMA/SMK">SMA/SMK</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Instansi Asal</label>
+                        <input type="text" name="instansi" id="in_instansi" required placeholder="Contoh: SD Negeri 1 Pangkalpinang" class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="email" name="email" id="in_email" required placeholder="Alamat Email Aktif" class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <input type="tel" name="wa" id="in_wa" required placeholder="Nomor WA Aktif" class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <button type="submit" id="submitBtn" class="w-full py-5 gradient-bg text-white font-black text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all active:scale-95">DAFTAR SEKARANG</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECTION 2: HALAMAN SUKSES (HALAMAN BERUBAH) -->
+        <section id="success-page" class="hidden fade-page space-y-8">
+            <div id="pdf-area" class="bg-white p-10 rounded-[40px] shadow-2xl border border-gray-100 max-w-4xl mx-auto">
+                <div class="text-center border-b-4 border-emerald-600 pb-8 mb-10">
+                    <h2 class="text-3xl font-black text-gray-800 italic uppercase">BUKTI PENDAFTARAN RESMI</h2>
+                    <p class="text-emerald-700 font-bold mt-2">Webinar Nasional "Cerdas Merencanakan Pembelajaran"</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Nama Peserta:</p>
+                            <h4 id="res_nama" class="text-2xl font-black text-gray-900">-</h4>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase">Instansi:</p>
+                                <p id="res_instansi" class="text-sm font-bold text-gray-700">-</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase">Provinsi:</p>
+                                <p id="res_provinsi" class="text-sm font-bold text-gray-700">-</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-3xl border-2 border-blue-100 shadow-inner">
+                        <p class="text-xs font-black text-blue-800 uppercase mb-4">Informasi Akses Webinar:</p>
+                        <p class="text-xs text-blue-700 mb-2 font-medium italic">May 13, 2026 12:30 PM Jakarta</p>
+                        <p class="text-sm text-gray-800 font-bold mb-4">ID: 813 6815 0767 | Pass: 851219</p>
+                        <a href="https://us06web.zoom.us/j/81368150767?pwd=ebREdGal8bJKqoMJywY5aiKbN2cqSi.1" target="_blank" class="block w-full py-3 bg-blue-600 text-white text-center rounded-xl text-xs font-bold hover:bg-blue-700 transition-all shadow-lg">JOIN ZOOM MEETING</a>
+                    </div>
+                </div>
+
+                <!-- Komponen Narasumber -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                    <div class="card-narasumber bg-emerald-50/30 p-6 rounded-3xl text-center">
+                        <h5 class="font-black text-gray-800 text-lg uppercase mb-1">Abdul Muis</h5>
+                        <p class="text-[10px] font-bold text-emerald-600 mb-4 tracking-widest uppercase italic">Narasumber</p>
+                        <a href="http://abdulmuis.rubel.web.id/" target="_blank" class="inline-block px-6 py-2 bg-emerald-600 text-white rounded-full text-[10px] font-black hover:bg-emerald-700">LIHAT PROFIL</a>
+                    </div>
+                    <div class="card-narasumber bg-blue-50/30 p-6 rounded-3xl text-center">
+                        <h5 class="font-black text-gray-800 text-lg uppercase mb-1">Suwari</h5>
+                        <p class="text-[10px] font-bold text-blue-600 mb-4 tracking-widest uppercase italic">Narasumber</p>
+                        <a href="https://suwari.kmedia.id/profil" target="_blank" class="inline-block px-6 py-2 bg-blue-600 text-white rounded-full text-[10px] font-black hover:bg-blue-700">LIHAT PROFIL</a>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-[10px] font-bold text-gray-400 mb-4 uppercase italic">Unduh Perlengkapan Webinar:</p>
+                    <a href="https://drive.google.com/file/d/1gU8m6dngW1gpfxP8IU6SilSv1pauLtnQ/view?usp=sharing" target="_blank" class="inline-flex items-center px-8 py-3 bg-gray-800 text-white rounded-2xl text-[11px] font-black hover:bg-black transition-all shadow-xl">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        DOWNLOAD VIRTUAL BACKGROUND
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <button onclick="saveToPDF()" class="px-10 py-5 bg-emerald-800 text-white rounded-2xl font-black shadow-2xl flex items-center hover:bg-black transition-all active:scale-95">
+                    <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20"><path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"></path></svg>
+                    SIMPAN PDF SEBAGAI BUKTI
+                </button>
+                <button onclick="location.reload()" class="font-bold text-emerald-800 hover:underline">Daftar Kembali &rarr;</button>
+            </div>
+        </section>
+
+        <!-- SECTION 3: REKAP PENDAFTAR (Sesuai Komponen Awal) -->
+        <section id="admin-section" class="tab-content space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass p-8 rounded-[32px] shadow-md border-b-8 border-emerald-500">
+                    <p class="text-xs font-black text-gray-400 uppercase tracking-widest">Total Peserta</p>
+                    <div class="flex items-end justify-between">
+                        <h4 class="text-5xl font-black text-gray-800" id="rekap_total">0</h4>
+                        <button onclick="syncData()" class="p-2 text-emerald-600 hover:rotate-180 transition-all duration-500">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="glass p-8 rounded-[32px] shadow-md border-b-8 border-blue-500">
+                    <p class="text-xs font-black text-gray-400 uppercase tracking-widest">Provinsi Dominan</p>
+                    <h4 class="text-lg font-black text-blue-700 mt-4 uppercase" id="rekap_dominan">-</h4>
+                </div>
+                <div class="glass p-8 rounded-[32px] shadow-md border-b-8 border-yellow-500">
+                    <p class="text-xs font-black text-gray-400 uppercase tracking-widest">Status Data</p>
+                    <h4 class="text-lg font-black text-emerald-600 mt-4 flex items-center">
+                        <span class="w-3 h-3 bg-emerald-500 rounded-full animate-ping mr-3"></span>
+                        LIVE SINKRON
+                    </h4>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass p-8 rounded-[32px] shadow-md">
+                    <h5 class="text-xs font-black text-gray-700 mb-6 uppercase tracking-widest border-l-4 border-emerald-500 pl-4">Distribusi Jenjang</h5>
+                    <div class="h-64"><canvas id="jenjangChart"></canvas></div>
+                </div>
+                <div class="glass rounded-[32px] shadow-md overflow-hidden">
+                    <div class="p-6 bg-gray-50 border-b flex justify-between items-center">
+                        <h5 class="text-xs font-black text-gray-700 uppercase tracking-widest">DAFTAR NAMA PESERTA TERDAFTAR</h5>
+                    </div>
+                    <div class="overflow-y-auto h-[350px]">
+                        <table class="w-full text-left" id="mainTable">
+                            <thead class="bg-gray-100 text-[10px] text-gray-500 uppercase sticky top-0 font-bold">
+                                <tr>
+                                    <th class="px-6 py-4">Nama Lengkap</th>
+                                    <th class="px-6 py-4">Provinsi</th>
+                                    <th class="px-6 py-4 text-right">Jenjang</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableRows" class="text-xs divide-y divide-gray-100 bg-white">
+                                <tr><td colspan="3" class="px-6 py-20 text-center text-gray-400 italic">Mengambil data dari spreadsheet...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // PENTING: MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzozdJikK7r8BTsqqjpD1WXe7_oiqG1zWLjREcYNp049OXv4lSJrkLHnp8d34k6ZipvMQ/exec';
+
+        const PROV_LIST = ["Aceh", "Sumatera Utara", "Sumatera Barat", "Riau", "Kepulauan Riau", "Jambi", "Sumatera Selatan", "Bangka Belitung", "Bengkulu", "Lampung", "DKI Jakarta", "Jawa Barat", "Banten", "Jawa Tengah", "DI Yogyakarta", "Jawa Timur", "Bali", "Nusa Tenggara Barat", "Nusa Tenggara Timur", "Kalimantan Barat", "Kalimantan Tengah", "Kalimantan Selatan", "Kalimantan Timur", "Kalimantan Utara", "Sulawesi Utara", "Sulawesi Tengah", "Sulawesi Selatan", "Sulawesi Tenggara", "Gorontalo", "Sulawesi Barat", "Maluku", "Maluku Utara", "Papua", "Papua Barat", "Papua Selatan", "Papua Tengah", "Papua Pegunungan", "Papua Barat Daya"];
+
+        let masterData = [];
+        let chartInstance;
+
+        function init() {
+            const select = document.getElementById('in_provinsi');
+            PROV_LIST.sort().forEach(p => { let o = document.createElement('option'); o.value=p; o.text=p; select.add(o); });
+            initChart();
+            syncData();
+        }
+
+        async function syncData() {
+            if(scriptURL.includes('MASUKKAN')) return;
+            try {
+                const res = await fetch(scriptURL);
+                const json = await res.json();
+                if(json.status === 'success') {
+                    masterData = json.data;
+                    renderRekap();
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            const isF = tabId === 'form-section';
+            document.getElementById('btn-form').className = isF ? 'px-8 py-2 rounded-full font-bold shadow-sm bg-emerald-700 text-white border-2 border-emerald-700' : 'px-8 py-2 rounded-full font-bold shadow-sm bg-white text-emerald-800 border-2 border-transparent hover:border-emerald-100';
+            document.getElementById('btn-admin').className = !isF ? 'px-8 py-2 rounded-full font-bold shadow-sm bg-emerald-700 text-white border-2 border-emerald-700' : 'px-8 py-2 rounded-full font-bold shadow-sm bg-white text-emerald-800 border-2 border-transparent hover:border-emerald-100';
+            if(!isF) syncData();
+        }
+
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true; btn.innerText = "MENGIRIM...";
+
+            const payload = new FormData(this);
+            const nama = document.getElementById('in_nama').value.toUpperCase();
+            const instansi = document.getElementById('in_instansi').value;
+            const prov = document.getElementById('in_provinsi').value;
+
+            fetch(scriptURL, { method: 'POST', body: payload })
+            .then(() => {
+                // TRANSISI HALAMAN PENUH
+                document.getElementById('navigation-header').classList.add('hidden');
+                document.getElementById('form-section').classList.remove('active');
+                document.getElementById('success-page').classList.remove('hidden');
+                
+                // ISI DATA PDF
+                document.getElementById('res_nama').innerText = nama;
+                document.getElementById('res_instansi').innerText = instansi;
+                document.getElementById('res_provinsi').innerText = prov;
+
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            })
+            .catch(() => { btn.disabled=false; btn.innerText="COBA LAGI"; alert("Koneksi gagal."); });
+        });
+
+        function renderRekap() {
+            document.getElementById('rekap_total').innerText = masterData.length;
+            const tbody = document.getElementById('tableRows');
+            if(masterData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="px-6 py-10 text-center">Belum ada data.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = masterData.map(p => `
+                <tr class="hover:bg-emerald-50 transition-colors">
+                    <td class="px-6 py-4 font-black uppercase text-gray-800">${p.nama}</td>
+                    <td class="px-6 py-4 font-bold text-gray-500">${p.provinsi}</td>
+                    <td class="px-6 py-4 text-right"><span class="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-[9px] font-black">${p.jenjang}</span></td>
+                </tr>
+            `).join('');
+
+            // Hitung Dominan
+            let counts = {}; masterData.forEach(p => counts[p.provinsi] = (counts[p.provinsi]||0)+1);
+            let dom = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+            document.getElementById('rekap_dominan').innerText = `${dom} (${counts[dom]} Orang)`;
+
+            updateChart(counts);
+        }
+
+        function initChart() {
+            chartInstance = new Chart(document.getElementById('jenjangChart'), {
+                type: 'doughnut',
+                data: { labels: ['TK', 'SD', 'SMP', 'SMA/SMK'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { weight: 'bold', size: 10 } } } } }
+            });
+        }
+
+        function updateChart() {
+            let c = { 'TK': 0, 'SD': 0, 'SMP': 0, 'SMA/SMK': 0 };
+            masterData.forEach(p => { if(c[p.jenjang] !== undefined) c[p.jenjang]++; });
+            chartInstance.data.datasets[0].data = [c['TK'], c['SD'], c['SMP'], c['SMA/SMK']];
+            chartInstance.update();
+        }
+
+        function saveToPDF() {
+            const el = document.getElementById('pdf-area');
+            const name = document.getElementById('res_nama').innerText;
+            const opt = { margin: 0.3, filename: `Bukti_Webinar_${name}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } };
+            html2pdf().set(opt).from(el).save();
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
